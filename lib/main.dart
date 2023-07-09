@@ -19,7 +19,8 @@ void init(){
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  // This widget is the root of your application ..
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
       home: MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            create: (context) => MenuController(),
+            create: (context) => CustomMenuController(),
           ),
         ],
         child: LoginPage(), //MainScreen

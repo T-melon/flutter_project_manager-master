@@ -100,7 +100,7 @@ class LoginController extends GetxController {
             return MultiProvider(
               providers: [
                 ChangeNotifierProvider(
-                  create: (context) => MenuController(),
+                  create: (context) => CustomMenuController(),
                 ),
               ],
               child: MainScreen(),

@@ -1,10 +1,13 @@
 //参照i山大格式
-import 'dart:html' as html;
+// import 'dart:html' as html;
+import 'package:universal_html/html.dart' as html;
 import 'package:admin/utils/sharedpreference_util.dart';
 import 'package:dio/dio.dart' ;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+//
+import 'package:universal_io/io.dart';
 
 class Connection {
   static Dio _instance =  Dio();
@@ -126,64 +129,58 @@ class DemandAPI{
         uploadInput.onChange.listen((e) async {
           final files = uploadInput.files;
           _sendFormData(files![0], id);
-          //flutter不支持dart:io
-          // FormData formdata = FormData.fromMap({
-          //   "file": await MultipartFile.fromFile(files![0].relativePath!, filename: files[0].name)
-          // });
-          // await Connection.dio().post(
-          //     _uploadDemandFileUrlPOST,
-          //     options: Options(headers:{'token':Connection.getToken()}),
-          //     queryParameters: {
-          //       'denamd_id': id,
-          //     },
-          //   data: formdata
-          // ).then((value){
-          //   if(value.data['code'] == 0){
-          //     Fluttertoast.showToast(
-          //       msg: "success",
-          //       toastLength: Toast.LENGTH_LONG,
-          //       gravity: ToastGravity.BOTTOM,
-          //       // backgroundColor: Colors.redAccent,
-          //     );
-          //   }
-          // });
+          //
+
         });
     }on Error{
+
+      print("oi error");
     }
   }
 
   _sendFormData(final html.File file,int id) async {
     final reader = html.FileReader();
     reader.readAsArrayBuffer(file);
+    // reader.readAsText(file); // 读取文件内容为文本格式
+    reader.onLoad.listen((e) {
+      final fileContent = reader.result as String;
+      print(fileContent); // 打印文件内容
+    });
+    // reader.readAsArrayBuffer(file);
+    // print(reader); // 打印文件内容或进行其他处理
+    // final fileContent = reader.result as String; // 获取文件内容
+
     final html.FormData formData = html.FormData()
       ..appendBlob('uploadFile', file)
       ..append('demand_id', '$id');
-
+    print(html.FormData().toString()); // 打印文件内容或进行其他处理
     Fluttertoast.showToast(
       msg: "success",
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.BOTTOM,
       backgroundColor: Colors.green,
     );
-    // handleRequest(html.HttpRequest httpRequest) {
-    //   switch (httpRequest.status) {
-    //     case 200:
-    //       return;
-    //     default:
-    //       break;
-    //   }
-    // }
-    //
-    // html.HttpRequest.request(
-    //   _uploadDemandFileUrlPOST,
-    //   method: 'POST',
-    //   requestHeaders: {'token': Connection.getToken()!},
-    //   sendData: formData,
-    // ).then((httpRequest) {
-    //   handleRequest(httpRequest);
-    // }).catchError((e) {
-    //   print(e.toString());
-    // });
+    //临时
+    handleRequest(html.HttpRequest httpRequest) {
+      switch (httpRequest.status) {
+        case 200:
+          return;
+        default:
+          print(httpRequest.status);
+          break;
+      }
+    }
+
+    html.HttpRequest.request(
+      _uploadDemandFileUrlPOST,
+      method: 'POST',
+      requestHeaders: {'token': Connection.getToken()!},
+      sendData: formData,
+    ).then((httpRequest) {
+      handleRequest(httpRequest);
+    }).catchError((e) {
+      print(e.toString());
+    });
   }
 
   Future<String> getDemandFile(int demandID) async {

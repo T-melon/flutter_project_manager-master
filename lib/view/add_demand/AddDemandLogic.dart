@@ -124,6 +124,7 @@ class AddDemandLogic extends GetxController {
 
            await DemandAPI().createDemand(title, project, selectedDeadLine.value,
                selectedManager.value, priority).then((value) {
+             print('ctime: $selectedDeadLine');
              if(value == 0){
                logic.getAllDoingDemandList();
                Fluttertoast.showToast(

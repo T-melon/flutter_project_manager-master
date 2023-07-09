@@ -34,7 +34,7 @@ class _MyPieChartState extends State<MyPieChart>
   late AnimationController _animationController;
   Color enterColor = Colors.black54;
   Color exitColor = Colors.transparent;
-  Color enterBackColor = Color(0xFF212332);
+  Color enterBackColor = Color(0x2A68C9);
   Color exitBackColor = Color(0xFF2A2D3E);
   bool isEnter = false;
 
